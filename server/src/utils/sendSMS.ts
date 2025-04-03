@@ -5,7 +5,7 @@ const sid: string = config.get<string>("SID")
 const token: string = config.get<string>("TOKEN")
 const phone: string = config.get<string>("PHONE")
 
-const client = twilio(sid, token)
+const client = new twilio.Twilio(sid, token);  // ✅ Corrected
 
 interface smsDataInterface{
     body: string,
