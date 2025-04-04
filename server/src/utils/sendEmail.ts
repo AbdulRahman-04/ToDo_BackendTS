@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer"
 import config from "config"
 
-const USER: string = config.get<string>("USER")
+const USER: string = config.get<string>("EMAIL")
 const PASS: string = config.get<string>("PASS")
 
 interface emailDataInterface{

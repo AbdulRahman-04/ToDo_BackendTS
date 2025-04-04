@@ -9,7 +9,7 @@ import { userModel } from "../../models/Users/Users"
 const router = express.Router()
 
 const URL: string = config.get<string>("URL")
-const USER: string = config.get<string>("USER")
+const USER: string = config.get<string>("EMAIL")
 const KEY: string = config.get<string>("JWT_KEY")
 
 router.post("/usersignup", async (req: Request, res: Response) : Promise<void> =>{
@@ -159,7 +159,7 @@ res.status(200).json({ msg: "User email verified successfully! ✅" });
 
 
 // login route
-router.post("/signin", async (req: Request, res: Response): Promise<void>=>{
+router.post("/usersignin", async (req: Request, res: Response): Promise<void>=>{
     try {
 
         // take input from user
@@ -183,7 +183,7 @@ router.post("/signin", async (req: Request, res: Response): Promise<void>=>{
         let token = jwt.sign({id: checkUser._id}, KEY, {expiresIn: "30d"})
 
         
-        res.status(200).json({msg: "User Logged in Successfully!🙌"})
+        res.status(200).json({msg: "User Logged in Successfully!🙌", token})
     } catch (error) {
         console.log(error);
         res.status(500).json({msg: error})
@@ -228,4 +228,8 @@ router.post("/forgotpassword", async (req: Request, res: Response): Promise<void
         console.log(error);
         res.status(500).json({msg: error})
     }
+
+
 })
+
+export default router
