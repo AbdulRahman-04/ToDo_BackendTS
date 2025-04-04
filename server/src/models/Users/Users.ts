@@ -1,70 +1,66 @@
-import mongoose, { Schema, Model, Document } from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
 
-// ✅ TypeScript Interface (corrected)
+// Interface for strict schema conformance
 interface IUser extends Document {
-  userName: string;
-  password: string;
-  email: string;
-  age: number;
-  userVerified: {
-    email: boolean | null;
-    phone: boolean | null;
-  };
-  userVerifyToken: {
-    email?: string | null;
-    phone?: string | null;
-  };
+    userName: string;
+    email: string;
+    password: string;
+    age: number;
+    userVerified: {
+        email: boolean | null;
+        phone: boolean | null;
+    };
+    userVerifyToken: {
+        email?: string | null;  // Token should be string or null
+        phone?: string | null;
+    };
 }
 
-// ✅ Mongoose Schema (corrected)
-const userSchema = new Schema<IUser>(
-  {
+const userSchema = new Schema<IUser>({
     userName: {
-      type: String,
-      required: true, // ✅ Fix: require ❌ → required ✅
-      maxlength: 70, // ✅ Fix: maclength ❌ → maxlength ✅
-      minlength: 10,
+        type: String,
+        required: true,
+        maxlength: 70,
+        minlength: 10
     },
     email: {
-      type: String,
-      required: true,
-      unique: true,
+        type: String,
+        required: true,
+        unique: true
     },
     password: {
-      type: String,
-      required: true, // ✅ Fix: missing required
-      minlength: 8,
+        type: String,
+        required: true
     },
     age: {
-      type: Number,
-      required: true,
+        type: Number,
+        required: true
     },
     userVerified: {
-      email: {
-        type: Boolean, // ✅ Fix: boolean | null ❌ → Boolean ✅
-        default: false,
-      },
-      phone: {
-        type: Boolean,
-        default: false,
-      },
+        email: {
+            type: Boolean,
+            default: false
+        },
+        phone: {
+            type: Boolean,
+            default: false
+        }
     },
     userVerifyToken: {
-      email: {
-        type: String,
-        default: null, // ✅ Fix: type: string | null ❌ → default: null ✅
-      },
-      phone: {
-        type: String,
-        default: null,
-      },
+        email: {
+            type: String,  // Changed to String
+            default: null
+        },
+        phone: {
+            type: String,  // Changed to String
+            default: null
+        }
     },
-  },
-  {
-    timestamps: true,
-  }
-);
+
+}, {
+    timestamps: true
+});
 
 const userModel: Model<IUser> = mongoose.model<IUser>("users", userSchema, "users");
 
-export default userModel;
+export { userModel, IUser };
