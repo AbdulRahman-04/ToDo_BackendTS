@@ -7,16 +7,16 @@ import morgan from "morgan";
 import cors from "cors";
 
 // DATABASE CONNECTION
-import "./src/utils/dbConnect";
+import "./utils/dbConnect";
 
 // Public API's
-import userRouter from "./src/controllers/public/index";
+import userRouter from "./controllers/public/index";
 
 // Middleware
-import authMiddleware from "./src/middleware/auth";
+import authMiddleware from "./middleware/auth";
 
 // Private API's
-import todoRoute from "./src/controllers/private/index";
+import todoRoute from "./controllers/private/index";
 
 const app = express();
 const PORT: string = config.get<string>("PORT");
@@ -56,8 +56,6 @@ app.use("/api/public", userRouter);
 app.use("/api/private", authMiddleware, todoRoute);
 
 // ✅ Start Server
-// app.listen(PORT, () => {
-//   console.log(`YOUR SERVER IS LIVE AT PORT ${PORT}`);
-// });
-
-export default app
+app.listen(PORT, () => {
+  console.log(`YOUR SERVER IS LIVE AT PORT ${PORT}`);
+});
