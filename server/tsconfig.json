@@ -106,7 +106,7 @@
   },
   "include": [
     "src"
-  ], // Include the source folder
+, "app.ts"  ], // Include the source folder
   "exclude": [
     "node_modules"
   ] // Exclude unnecessary folders
