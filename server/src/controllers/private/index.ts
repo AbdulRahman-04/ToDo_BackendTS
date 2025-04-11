@@ -7,26 +7,38 @@ const router = express.Router();
 // ✅ Multer Setup (Files "uploads/" folder me jayengi)
 const upload = multer({ dest: "uploads/" });
 
-// ✅ Add Todo with File Upload
-router.post("/addtodo", upload.single("fileUpload"), async (req: Request, res: Response): Promise<void> => {
+
+
+router.post("/addtodo", upload.single("file"), async (req: Request, res: Response): Promise<void> => {
   try {
-    const { date, todoNo, todoTtitle, todoDescription } = req.body;
-    if (!date || !todoNo || !todoTtitle || !todoDescription) {
-      res.status(400).json({ msg: "Please provide all fields ❌" });
-      return
+    const { date, taskNo, taskTitle, taskDescription, taskCreatedBy } = req.body;
+
+    if (!date || !taskNo || !taskTitle || !taskDescription || !taskCreatedBy) {
+      res.status(400).json({ msg: "Please provide all required fields! ❌" });
+      return;
     }
 
-    // ✅ File Path (if any)
-    const filePath = req.file?.path || null;
+    // ✅ Upload image if file is there
+    let imageUrl = "";
+    if (req.file) {
+      imageUrl = await uploadToCloudinary(req.file.path);
+    }
 
-    // ✅ Todo Save
-    const newTodo = new todoModel({ date, todoNo, todoTtitle, todoDescription, fileUpload: filePath });
+    const newTodo = new todoModel({
+      date,
+      taskNo,
+      taskTitle,
+      taskDescription,
+      taskCreatedBy,
+      image: imageUrl // ⬅️ optional: schema me image field hona chahiye
+    });
+
     await newTodo.save();
 
-    res.status(201).json({ msg: "Todo added ✅", todo: newTodo });
+    res.status(201).json({ msg: "Todo added successfully! ✅", todo: newTodo });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: "Server error ❌" });
+    res.status(500).json({ msg: "Server error! ❌" });
   }
 });
 
