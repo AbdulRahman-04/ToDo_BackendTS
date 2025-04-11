@@ -1,11 +1,9 @@
 import express, { Request, Response } from "express";
-import multer from "multer";
+import upload from "../../middleware/multer";
+import { uploadToCloudinary } from  "../../utils/uploadCloudinary";
 import todoModel from "../../models/Todos/Todos";
 
 const router = express.Router();
-
-// ✅ Multer Setup (Files "uploads/" folder me jayengi)
-const upload = multer({ dest: "uploads/" });
 
 
 
