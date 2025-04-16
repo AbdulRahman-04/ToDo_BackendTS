@@ -79,7 +79,7 @@ router.put("/editone/:id", upload.single("fileUpload"), async (req: Request, res
     const updatedTodo = await todoModel.findByIdAndUpdate(
       id,
       { date, todoNo, todoTtitle, todoDescription, fileUpload: filePath },
-      { new: true }
+      {new: true}
     );
 
     if (!updatedTodo) {

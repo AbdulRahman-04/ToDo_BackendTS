@@ -18,6 +18,7 @@ import authMiddleware from "./middleware/auth";
 // Private API's
 import todoRoute from "./controllers/private/index";
 
+
 const app = express();
 const PORT: string = config.get<string>("PORT");
 
@@ -56,6 +57,7 @@ app.use("/api/public", userRouter);
 app.use("/api/private", authMiddleware, todoRoute);
 
 // ✅ Start Server
-app.listen(PORT, () => {
-  console.log(`YOUR SERVER IS LIVE AT PORT ${PORT}`);
+  app.listen(Number(PORT), () => {
+    console.log(`YOUR SERVER IS LIVE AT PORT ${PORT}`);
 });
+

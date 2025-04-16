@@ -219,7 +219,7 @@ router.post("/forgotpassword", async (req: Request, res: Response): Promise<void
 
     //   hashs the new pass 
     let hashPass: string = await bcrypt.hash(newPass, 10)
-    checkUser.password = hashPass;
+    checkUser.password = hashPass; 
          
     await checkUser.save()
         
